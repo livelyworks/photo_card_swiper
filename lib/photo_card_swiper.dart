@@ -39,6 +39,7 @@ class PhotoCardSwiper extends StatefulWidget {
   final Function? centerButtonAction;
   final Function? rightButtonAction;
   final Function? onCardTap;
+  final Color cardBgColor;
 
   PhotoCardSwiper({
     required this.photos,
@@ -62,6 +63,7 @@ class PhotoCardSwiper extends StatefulWidget {
     this.centerButtonAction,
     this.rightButtonAction,
     this.onCardTap,
+    this.cardBgColor = Colors.black,
   });
   @override
   _PhotoCardSwiperState createState() => _PhotoCardSwiperState();
@@ -123,7 +125,8 @@ class _PhotoCardSwiperState extends State<PhotoCardSwiper> {
                   cardHeight: _cardHeight,
                   cardWidth: _cardWidth,
                   hideCenterButton: widget.hideCenterButton,
-                  isLoading: true)
+                  isLoading: true,
+                  cardBgColor: widget.cardBgColor)
               : Stack(
                   key: Key(_stackViewKey),
                   children: _updatedPhotos.map(
@@ -147,7 +150,7 @@ class _PhotoCardSwiperState extends State<PhotoCardSwiper> {
                         child: Draggable(
                           axis: Axis.horizontal,
                           childWhenDragging: Container(),
-                          maxSimultaneousDrags: 1,
+                          maxSimultaneousDrags: 0,
                           onDragCompleted: () {
                             _hideAllPhotoCardOverlayWidgets();
                           },
@@ -176,30 +179,32 @@ class _PhotoCardSwiperState extends State<PhotoCardSwiper> {
                             }
                           },
                           feedback: FeedbackPhotoCardWidget(
-                            cardHeight: _updatedCardHeight,
-                            cardWidth: _cardWidth,
-                            photoCard: _updatedPhoto,
-                            leftButtonIcon: widget.leftButtonIcon,
-                            rightButtonIcon: widget.rightButtonIcon,
-                            centerButtonIcon: widget.centerButtonIcon,
-                            hideCenterButton: widget.hideCenterButton,
-                            hideTitleText: widget.hideTitleText,
-                            hideDescriptionText: widget.hideDescriptionText,
-                            imageScaleType: widget.imageScaleType,
-                            imageBackgroundColor: widget.imageBackgroundColor,
-                            feedbackPhotoCardValueNotifier:
-                                _feedbackPhotoCardValueNotifier,
-                            leftButtonIconColor: widget.leftButtonIconColor,
-                            leftButtonBackgroundColor:
-                                widget.leftButtonBackgroundColor,
-                            centerButtonBackgroundColor:
-                                widget.centerButtonBackgroundColor,
-                            centerButtonIconColor: widget.centerButtonIconColor,
-                            rightButtonBackgroundColor:
-                                widget.rightButtonBackgroundColor,
-                            rightButtonIconColor: widget.rightButtonIconColor,
-                          ),
+                              cardHeight: _updatedCardHeight,
+                              cardWidth: _cardWidth,
+                              photoCard: _updatedPhoto,
+                              leftButtonIcon: widget.leftButtonIcon,
+                              rightButtonIcon: widget.rightButtonIcon,
+                              centerButtonIcon: widget.centerButtonIcon,
+                              hideCenterButton: widget.hideCenterButton,
+                              hideTitleText: widget.hideTitleText,
+                              hideDescriptionText: widget.hideDescriptionText,
+                              imageScaleType: widget.imageScaleType,
+                              imageBackgroundColor: widget.imageBackgroundColor,
+                              feedbackPhotoCardValueNotifier:
+                                  _feedbackPhotoCardValueNotifier,
+                              leftButtonIconColor: widget.leftButtonIconColor,
+                              leftButtonBackgroundColor:
+                                  widget.leftButtonBackgroundColor,
+                              centerButtonBackgroundColor:
+                                  widget.centerButtonBackgroundColor,
+                              centerButtonIconColor:
+                                  widget.centerButtonIconColor,
+                              rightButtonBackgroundColor:
+                                  widget.rightButtonBackgroundColor,
+                              rightButtonIconColor: widget.rightButtonIconColor,
+                              cardBgColor: widget.cardBgColor),
                           child: PhotoCardLayoutWidget(
+                            cardBgColor: widget.cardBgColor,
                             cardHeight: _updatedCardHeight,
                             cardWidth: _cardWidth,
                             imageScaleType: widget.imageScaleType,

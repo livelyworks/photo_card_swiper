@@ -11,14 +11,6 @@ class PhotoDescriptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      '${photoCard.description}',
-      style: TextStyle(
-        fontSize: 17.0,
-        fontWeight: FontWeight.normal,
-        color: Colors.grey[700],
-      ),
-      textAlign: TextAlign.center,
-    );
+    return photoCard.description;
   }
 }

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class PhotoCard {
   final String title;
-  final String description;
-  final String imagePath;
+  final Widget description;
+  final Widget itemWidget;
   final bool isLocalImage;
   final String cardId;
 
   PhotoCard({
     this.title = "",
-    this.description = "",
-    this.imagePath = "",
+    required this.description,
+    required this.itemWidget,
     this.isLocalImage = true,
     required this.cardId,
   });

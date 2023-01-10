@@ -31,6 +31,7 @@ class PhotoCardLayoutWidget extends StatefulWidget {
   final Function? rightButtonAction;
   final Function? onCardTap;
   final int photoIndex;
+  final Color cardBgColor;
 
   PhotoCardLayoutWidget({
     required this.photoCard,
@@ -58,6 +59,7 @@ class PhotoCardLayoutWidget extends StatefulWidget {
     this.centerButtonAction,
     this.rightButtonAction,
     this.onCardTap,
+    this.cardBgColor = Colors.black,
     Key? key,
   }) : super(key: key);
 
@@ -77,44 +79,20 @@ class _PhotoCardLayoutWidgetState extends State<PhotoCardLayoutWidget> {
       child: Container(
         height: widget.cardHeight,
         width: widget.cardWidth,
-        clipBehavior: Clip.hardEdge,
+        // clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[350] ?? Colors.black,
-                blurRadius: 7.0,
-                spreadRadius: 3.0,
-                offset: Offset(2, 3),
-              ),
-            ]),
+          color: widget.cardBgColor,
+          borderRadius: BorderRadius.circular(25.0),
+        ),
         child: Column(
           children: [
             Expanded(
               child: Container(
                 child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: widget.imageBackgroundColor,
-                    image: widget.photoCard.isLocalImage
-                        ? DecorationImage(
-                            image: AssetImage(
-                              widget.photoCard.imagePath,
-                            ),
-                            fit: widget.imageScaleType,
-                          )
-                        : DecorationImage(
-                            image: NetworkImage(
-                              widget.photoCard.imagePath,
-                            ),
-                            fit: widget.imageScaleType,
-                          ),
-                  ),
                   margin: const EdgeInsets.all(10.0),
                   child: Stack(
                     children: [
+                      widget.photoCard.itemWidget,
                       CardActionSpecifcOverlayWidget(
                         key: UniqueKey(),
                         buttonIconColor:
@@ -142,7 +120,7 @@ class _PhotoCardLayoutWidgetState extends State<PhotoCardLayoutWidget> {
               ),
             ),
             Container(
-              color: Colors.white,
+              color: widget.cardBgColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -218,11 +196,13 @@ class CardActionSpecifcOverlayWidget extends StatelessWidget {
     required this.buttonIconColor,
     required this.buttonIcon,
     required this.isVisible,
+    this.cardBgColor = Colors.black,
   }) : super(key: key);
 
   final Color? buttonIconColor;
   final IconData buttonIcon;
   final bool isVisible;
+  final Color cardBgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -237,13 +217,13 @@ class CardActionSpecifcOverlayWidget extends StatelessWidget {
           sigmaY: 2.0,
         ),
         child: Container(
-          color: Colors.white.withOpacity(0.3),
+          color: cardBgColor.withOpacity(0.3),
           child: Center(
               child: ClipOval(
             child: Container(
               width: 95,
               height: 95,
-              color: Colors.white.withOpacity(0.7),
+              color: cardBgColor.withOpacity(0.7),
               child: Center(
                 child: Icon(
                   buttonIcon,

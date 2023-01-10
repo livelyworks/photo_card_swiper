@@ -26,6 +26,7 @@ class FeedbackPhotoCardWidget extends StatelessWidget {
   final Color? centerButtonBackgroundColor;
   final Color? rightButtonIconColor;
   final Color? rightButtonBackgroundColor;
+  final Color cardBgColor;
 
   FeedbackPhotoCardWidget({
     required this.photoCard,
@@ -46,6 +47,7 @@ class FeedbackPhotoCardWidget extends StatelessWidget {
     this.centerButtonBackgroundColor,
     this.rightButtonIconColor,
     this.rightButtonBackgroundColor,
+    this.cardBgColor = Colors.black,
     Key? key,
   }) : super(key: key);
 
@@ -55,81 +57,61 @@ class FeedbackPhotoCardWidget extends StatelessWidget {
       child: Container(
         height: cardHeight,
         width: cardWidth,
-        clipBehavior: Clip.hardEdge,
+        // clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[350] ?? Colors.black,
-                blurRadius: 7.0,
-                spreadRadius: 3.0,
-                offset: Offset(2, 3),
-              ),
-            ]),
+          color: cardBgColor,
+          borderRadius: BorderRadius.circular(25.0),
+        ),
         child: Column(
           children: [
             Expanded(
               child: Container(
-                child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: imageBackgroundColor,
-                    image: photoCard.isLocalImage
-                        ? DecorationImage(
-                            image: AssetImage(
-                              photoCard.imagePath,
-                            ),
-                            fit: imageScaleType,
-                          )
-                        : DecorationImage(
-                            image: NetworkImage(
-                              photoCard.imagePath,
-                            ),
-                            fit: imageScaleType,
-                          ),
+                child: Column(children: [
+                  photoCard.itemWidget,
+                  Container(
+                    // clipBehavior: Clip.hardEdge,
+                    margin: const EdgeInsets.all(10.0),
+                    child: ValueListenableBuilder(
+                      valueListenable: feedbackPhotoCardValueNotifier
+                          .swipeDirectionValueNotifier,
+                      builder:
+                          (_, CardActionDirection _cardActionDirection, __) {
+                        switch (_cardActionDirection) {
+                          case CardActionDirection.cardLeftAction:
+                            return CardActionSpecifcOverlayWidget(
+                              key: UniqueKey(),
+                              buttonIconColor:
+                                  leftButtonIconColor ?? Colors.red[800],
+                              buttonIcon: leftButtonIcon ?? Icons.close,
+                              isVisible: true,
+                            );
+                          case CardActionDirection.cardCenterAction:
+                            return CardActionSpecifcOverlayWidget(
+                              key: UniqueKey(),
+                              buttonIconColor: centerButtonIconColor ??
+                                  Colors.lightBlue[600],
+                              buttonIcon: centerButtonIcon ?? Icons.favorite,
+                              isVisible: true,
+                            );
+                          case CardActionDirection.cardRightAction:
+                            return CardActionSpecifcOverlayWidget(
+                              key: UniqueKey(),
+                              buttonIconColor: rightButtonIconColor ??
+                                  Colors.lightGreen[700],
+                              buttonIcon: rightButtonIcon ?? Icons.check,
+                              isVisible: true,
+                            );
+                          default:
+                            return Container();
+                        }
+                      },
+                    ),
                   ),
-                  margin: const EdgeInsets.all(10.0),
-                  child: ValueListenableBuilder(
-                    valueListenable: feedbackPhotoCardValueNotifier
-                        .swipeDirectionValueNotifier,
-                    builder: (_, CardActionDirection _cardActionDirection, __) {
-                      switch (_cardActionDirection) {
-                        case CardActionDirection.cardLeftAction:
-                          return CardActionSpecifcOverlayWidget(
-                            key: UniqueKey(),
-                            buttonIconColor:
-                                leftButtonIconColor ?? Colors.red[800],
-                            buttonIcon: leftButtonIcon ?? Icons.close,
-                            isVisible: true,
-                          );
-                        case CardActionDirection.cardCenterAction:
-                          return CardActionSpecifcOverlayWidget(
-                            key: UniqueKey(),
-                            buttonIconColor:
-                                centerButtonIconColor ?? Colors.lightBlue[600],
-                            buttonIcon: centerButtonIcon ?? Icons.favorite,
-                            isVisible: true,
-                          );
-                        case CardActionDirection.cardRightAction:
-                          return CardActionSpecifcOverlayWidget(
-                            key: UniqueKey(),
-                            buttonIconColor:
-                                rightButtonIconColor ?? Colors.lightGreen[700],
-                            buttonIcon: rightButtonIcon ?? Icons.check,
-                            isVisible: true,
-                          );
-                        default:
-                          return Container();
-                      }
-                    },
-                  ),
-                ),
+                ]),
               ),
             ),
             Container(
-              color: Colors.white,
+              color: cardBgColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -199,9 +181,11 @@ class CardActionSpecifcOverlayWidget extends StatelessWidget {
     required this.buttonIconColor,
     required this.buttonIcon,
     required this.isVisible,
+    this.cardBgColor = Colors.black,
   }) : super(key: key);
 
   final Color? buttonIconColor;
+  final Color cardBgColor;
   final IconData buttonIcon;
   final bool isVisible;
 
@@ -218,13 +202,13 @@ class CardActionSpecifcOverlayWidget extends StatelessWidget {
           sigmaY: 2.0,
         ),
         child: Container(
-          color: Colors.white.withOpacity(0.3),
+          color: cardBgColor.withOpacity(0.3),
           child: Center(
               child: ClipOval(
             child: Container(
               width: 95,
               height: 95,
-              color: Colors.white.withOpacity(0.7),
+              color: cardBgColor.withOpacity(0.7),
               child: Center(
                 child: Icon(
                   buttonIcon,
@@ -246,10 +230,12 @@ class CenterButtonWidget extends StatelessWidget {
     required this.centerButtonBackgroundColor,
     required this.centerButtonIconColor,
     required this.centerButtonIcon,
+    this.cardBgColor = Colors.black,
   }) : super(key: key);
 
   final Color? centerButtonBackgroundColor;
   final Color? centerButtonIconColor;
+  final Color cardBgColor;
   final IconData? centerButtonIcon;
 
   @override
@@ -265,7 +251,7 @@ class CenterButtonWidget extends StatelessWidget {
         ),
         color: centerButtonBackgroundColor ?? Colors.lightBlue[50],
         child: InkWell(
-          splashColor: Colors.white,
+          splashColor: cardBgColor,
           child: SizedBox(
               width: 85,
               height: 85,

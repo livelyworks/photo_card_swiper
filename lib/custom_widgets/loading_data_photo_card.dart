@@ -23,12 +23,14 @@ class LoadingDataPhotoCardWidget extends StatelessWidget {
   final double cardWidth;
   final bool isLoading;
   final bool hideCenterButton;
+  final Color cardBgColor;
 
   LoadingDataPhotoCardWidget({
     required this.cardHeight,
     required this.cardWidth,
     required this.isLoading,
     required this.hideCenterButton,
+    this.cardBgColor = Colors.black,
     Key? key,
   }) : super(key: key);
 
@@ -41,16 +43,8 @@ class LoadingDataPhotoCardWidget extends StatelessWidget {
         width: cardWidth,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[350] ?? Colors.black,
-                blurRadius: 7.0,
-                spreadRadius: 3.0,
-                offset: Offset(2, 3),
-              ),
-            ]),
+            color: cardBgColor,
+            borderRadius: BorderRadius.circular(25.0),),
         child: Column(
           children: [
             Expanded(
@@ -59,7 +53,7 @@ class LoadingDataPhotoCardWidget extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.white,
+              color: cardBgColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
